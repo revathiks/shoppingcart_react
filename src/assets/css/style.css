@@ -1,0 +1,22 @@
+.navbar-nav .nav-link {
+    color:#ffffff !important
+}
+.content{
+    padding:20px 0px 10px 0;
+    min-height: 600px;
+}
+.productdisplay{
+    background: #f9f0f0;
+    margin-bottom: 20px;
+    text-align: center;
+    min-height: 320px;
+    padding:5px;
+}
+footer{
+    background: #424242!important;
+    
+}
+.copyright__wrapper,.copyright__wrapper a {
+    padding: 18px 0;
+    color:#ffffff
+}
