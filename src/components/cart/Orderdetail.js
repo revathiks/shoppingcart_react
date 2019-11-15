@@ -25,26 +25,52 @@ class Orderdetail extends Component{
         this.getMyOrder();
     }
    
-    render(){   
-         console.log(this.state.order)
+    render(){            
         return(
             <div>
-            
-            {
-                this.state.order.map((orderinfo,i) => {
-                    return <div>
-                        <h5>Order No:#ExQ{orderinfo.orderid}</h5>
-                        <div><h6>{orderinfo.items.length} Item (s)</h6>
-                            <div className="col-md-12">
-                           {orderinfo.items.map((item,ind)=>{
-                               return <div className="col-md-3"><img alt={item.thumb} width={80} height={80} src={imgPath+`/${item.thumb}`}/></div>
-                               })}
-                            </div></div>
-                        </div>
-                })
-            }
+                  {  this.state.order.map((orderinfo,i) =>
+                  
+                       <div><h5>Order No:#ExQ{orderinfo.orderid} <small>{orderinfo.createdon}</small></h5>
+                       <table id="cart" className="table table-hover table-condensed">
+                       <thead>
+                       <tr>
+                           <th>Product</th>
+                           <th>Price (RS)</th>
+                           <th>Quantity</th>
+                           <th>Subtotal</th>                   
+                           <th></th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                    {                       
+                    orderinfo.items.map((item,i)=>   
+                                    
+                    <tr key={i}>
+                        <td data-th="Product">
+                            <div className="row">
+                            <div className="col-sm-3 hidden-xs"><img width="100px" src={imgPath+`/${item.thumb}`} alt={item.name} class="img-responsive"/></div>
+                            <div className="col-sm-6">
+                            <h4 className="nomargin">{item.name}</h4>
+                            <p>{item.description}</p>
+                            </div>							
+                            </div>
+                        </td>
+                        <td>{item.price}</td>
+                        <td>                        
+                        {item.quantity}                        
+                        </td>
+                        <td>{item.price*item.quantity}</td>
+                    </tr>
+                    )
+                    }
+                </tbody>               
+            </table>
+                       </div>
+                 
+               )
+                }
 
-        </div>
+           </div>
         )
     }
 }

@@ -1,24 +1,8 @@
 import React,{Component} from 'react';
-import Mycart from './Mycart';
+//import Mycart from './Mycart';
 import {connect} from 'react-redux';
-
-//import CheckoutForm from '../features/checkout/CheckoutForm';
+import Carttotal from './Carttotal';
 var apiConfirmOrderUrl="http://172.16.5.51/react_services/api/confirmorder.php";
- /* const submitOrder=(values,cart)=>{   
-  const requestoptions={
-        method:'POST',
-        body:{
-            name,
-            email,
-            order_items:cart.map(item => ({
-                    product_id:item.id,
-                    quantity:item.quantity
-                })
-            )
-        }
-    }
-
-}*/
 const mapStateToProps = (state) => {
     return {
       ftitle: state.titleReducer.ftitle,
@@ -31,7 +15,8 @@ class Checkout extends Component{
         this.state={         
         errors:{},                
         order:{
-                isOrderConfirmed:0
+                isOrderConfirmed:0,
+                isSubmitted:0
             }
         }        
         this.changeData=this.changeData.bind(this);
@@ -69,20 +54,24 @@ class Checkout extends Component{
             const requestoptions={
                 method:'POST',
                 body:formdata
-            }
-            console.log(requestoptions)
+            }            
             const order=this.state.order;
             fetch(apiConfirmOrderUrl,requestoptions)
             .then( (response) => { return response.json() })
             .then( (responsedata)=> {
                 if(responsedata.actionState===1){
                     order['isOrderConfirmed']=1;
+                    order['alertclass']="alert alert-success";
+                    order['isSubmitted']=1;
+                    order['msg']=responsedata.msg;
                     this.setState({order});                   
-                    this.props.history.push('/users');
+                    this.props.history.push('/Orderconfirm');
                 }else{
                     order['isOrderConfirmed']=0;
-                    this.setState({order});
-                    console.log(this.state);
+                    order['alertclass']="alert alert-danger";
+                    order['isSubmitted']=1;
+                    order['msg']=responsedata.msg;
+                    this.setState({order});                   
                 }
             })
 
@@ -105,21 +94,21 @@ class Checkout extends Component{
         }*/
         if(!fields['shipping_name']){
             formValid=false;
-            errors['shipping_name']="Please enter shipping name";
+            errors['shipping_name']="Please enter name";
         }
         if(!fields['shipping_email']){
             formValid=false;
-            errors['shipping_email']="Please enter shipping email";
+            errors['shipping_email']="Please enter email";
         }
 
         if(!fields['shipping_address']){
             formValid=false;
-            errors['shipping_address']="Please enter shipping address";
+            errors['shipping_address']="Please enter address";
         }
 
         if(!fields['shipping_mobile']){
             formValid=false;
-            errors['shipping_mobile']="Please enter shipping contact number";
+            errors['shipping_mobile']="Please enter mobile number";
         }
         
         
@@ -127,57 +116,98 @@ class Checkout extends Component{
         return formValid; 
 
     }
-    render(){       
+    render(){  
+        const finaltotal=Carttotal(this.props.cart);   
+        const shippingcost=50;    
         return(
         <div>
-         <Mycart/>
-         {/* <CheckoutForm  onSubmit={()=>submitOrder()}/> */}
-         <div className="">
-            <div className="">
+         
+         {/*  
+        <CheckoutForm  onSubmit={()=>submitOrder()}/> */}
+         <div className="checkout">
+         { this.props.cart.length ?         
+            <div className="">   
+            <table id="cart" className="table table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price (RS)</th>   
+                    <th>Quantity</th>                 
+                    <th>Subtotal</th>  
+                </tr>
+                </thead>
+                <tbody>
+                    {                       
+                    this.props.cart.map((item,i)=>   
+                                    
+                    <tr key={i}>
+                        <td>{item.name}   </td>
+                        <td>{item.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.total }</td>
+                    </tr>
+                    )
+                    }
+                    <tr>
+                    <td></td>
+                    <td></td>                    
+                    <td>shipping cost</td>
+				<td className="">{shippingcost}</td>
+				</tr>
+                </tbody>
+                <tfoot>
+				<tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total (Rs)</td>                  
+				<td className=""><strong> {finaltotal+shippingcost}</strong></td>
+				</tr>
+				</tfoot>               
+            </table>
+
+             { 
+                this.state.order.isSubmitted===1 ? <div className={this.state.order.alertclass}>{this.state.order.msg}</div>:''
+             }        
             <form onSubmit={this.processOrder}>
-            {/* <div className="form-group">
-            <label htmlFor="billing_name">Billing Name</label>
-            <input type="text" className="form-control" id="billing_name" name="billing_name" placeholder="Enter billing name" onChange={this.changeData}/>
-            <span className="invalid">{this.state.errors["billing_name"]}</span>
-            </div>
-            
+            <fieldset>
+            <legend>Shipping Information</legend>            
 
             <div className="form-group">
-            <label htmlFor="billing_email">Billing Email</label>
-            <input type="text" className="form-control" id="billing_email" name="billing_email" placeholder="Enter Billing Email" onChange={this.changeData}/>
-            <span className="error">{this.state.errors["billing_email"]}</span>
-            </div> */}
-
-            <div className="form-group">
-            <label htmlFor="Shipping_name">Shipping Name</label>
+            <label htmlFor="Shipping_name"> Name</label>
             <input type="text" className="form-control" id="shipping_name" name="shipping_name" placeholder="Enter Shipping name" onChange={this.changeData}/>
             <span className="invalid">{this.state.errors["shipping_name"]}</span>
             </div>
             
 
             <div className="form-group">
-            <label htmlFor="shipping_email">Shipping Email</label>
+            <label htmlFor="shipping_email"> Email</label>
             <input type="text" className="form-control" id="shipping_email" name="shipping_email" placeholder="Enter Shipping Email" onChange={this.changeData}/>
-            <span className="error">{this.state.errors["shipping_email"]}</span>
+            <span className="invalid">{this.state.errors["shipping_email"]}</span>
             </div>
 
             <div className="form-group">
-            <label htmlFor="shipping_mobile">Shipping contact Number</label>
-            <input type="text" className="form-control" id="shipping_mobile" name="shipping_mobile" placeholder="Enter Shipping Contact Number" onChange={this.changeData}/>
-            <span className="error">{this.state.errors["shipping_mobile"]}</span>
+            <label htmlFor="shipping_mobile">Mobile</label>
+            <input type="text" className="form-control" id="shipping_mobile" name="shipping_mobile" placeholder="Enter Shipping Mobile Number" onChange={this.changeData}/>
+            <span className="invalid">{this.state.errors["shipping_mobile"]}</span>
             </div>
 
             <div className="form-group">
-            <label htmlFor="shipping_address">Shipping Address</label>            
+            <label htmlFor="shipping_address">Address</label>            
             <input type="text" className="form-control" id="shipping_address" name="shipping_address" placeholder="Enter Shipping Address" onChange={this.changeData}/>
-            <span className="error">{this.state.errors["shipping_address"]}</span>
+            <span className="invalid">{this.state.errors["shipping_address"]}</span>
             </div>
 
            
-            <button type="submit" className="btn btn-primary login_btn">Confirm Order</button>                   
+            <button type="submit" className="btn btn-primary login_btn">Place Order</button>                   
+            </fieldset>
             </form>
             </div>
+            
+            :
+            <div className="text-center alert">Your cart is empty</div>
+            }
             </div>
+            
         </div>
         )
     }

@@ -8,8 +8,10 @@ import Products from './components/cart/Products';
 import Mycart from './components/cart/Mycart';
 import Myorders from './components/cart/Myorders';
 import Checkout from './components/cart/Checkout';
+import Orderconfirm from './components/cart/Orderconfirm';
 import Orderdetail from './components/cart/Orderdetail';
 import Users from './components/admin/Users';
+import Manageproducts from './components/admin/Manageproducts';
 
 import Notfound from './components/Notfound';
 
@@ -34,7 +36,10 @@ class App extends Component {
           <Route  path="/myorders" component={Myorders} />
           <Route  path="/checkout" component={Checkout} />          
           <Route  path="/order/:id" component={Orderdetail} />
-          <Route  path="/admin/" component={Users} /> 
+          <Route  path="/orderconfirm" component={Orderconfirm} />
+          
+          <Route exact path="/admin/" component={Users} /> 
+          <Route exact path="/admin/products" component={Manageproducts} /> 
           <Route  path="" component={Notfound} />  
 
           {/* 

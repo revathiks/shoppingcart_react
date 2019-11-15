@@ -27,6 +27,7 @@ class ProductItem extends Component{
                         {
                         this.props.cartItem
                         ?
+                        
                         <RemoveButton 
                         cartItem={this.props.cartItem} 
                         removeFromCart={this.props.removeFromCart}
