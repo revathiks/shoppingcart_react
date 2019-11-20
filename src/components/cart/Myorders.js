@@ -42,8 +42,20 @@ class Myorders extends Component{
                         </div>
                             <div className="row col-sm-6">
                            {order.items.map((item,ind)=>{
-                               return <div className="col-sm-2"><img alt={item.thumb} width={80} height={80} src={imgPath+`/${item.thumb}`}/></div>
+                               return <div className="col-sm-2">
+                                   <img alt={item.thumb} width={80} height={80} src={imgPath+`/${item.thumb}`}/>
+
+                                   </div>
                                })}
+                            </div>
+                            <div>
+                                {
+                                  (order.status!=="Delivered" &&  order.status!=="Shipped"  &&  order.status!=="Cancelled") ?
+                                  <Link to="/cancel" className="btn btn-danger">Cancel Order</Link>
+                                :
+                                <div className="btn btn-success">{order.status}</div>
+                                }
+
                             </div>
                             
                         </div>

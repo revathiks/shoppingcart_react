@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import {
-    withRouter
-  } from 'react-router-dom'
+import { withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 const loginapi="http://172.16.5.51/react_services/api/login.php";
 const avatarimg = require('../../assets/images/avatar.png'); 
+const mapStateToProps = (state) => {
+    return {
+      ftitle: state.titleReducer.ftitle,
+      cart:state.cart
+    };
+  };
 class Login extends Component{
     constructor(props){
         super(props);        
@@ -47,7 +52,10 @@ class Login extends Component{
                 user['userid']=responsedata.id;
                 this.setState({user});
                 sessionStorage.setItem("userid", responsedata.id);
-                sessionStorage.setItem("isUserLogged", 1);                
+                sessionStorage.setItem("isUserLogged", 1); 
+                this.props.cart.length ?
+                this.props.history.push('/mycart')
+                :               
                 this.props.history.push('/');               
             }else{
                     user['alertclass']="alert alert-danger";
@@ -87,4 +95,4 @@ class Login extends Component{
         );
     }
 }
-export default withRouter(Login);
+export default withRouter(connect(mapStateToProps)(Login));

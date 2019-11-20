@@ -5,6 +5,7 @@ var addProductapi="http://172.16.5.51/react_services/api/addproduct.php";
 const apiProductInfo="http://172.16.5.51/react_services/api/productdetail.php";
 const apiProductUpdate="http://172.16.5.51/react_services/api/productupdate.php";
 const imgPath="http://172.16.5.51/react_services/uploads/products";
+const apiProductDelete="http://172.16.5.51/react_services/api/deleteproduct.php"
 class Manageproducts extends Component{
     constructor(props){
         super(props);
@@ -24,6 +25,9 @@ class Manageproducts extends Component{
                 isSubmitted:'',
                 msg:'',
                 alertclass:''
+            },
+            delete_product:{                            
+                isDeleted:0
             },
             productdata:[0]
         }
@@ -129,9 +133,8 @@ class Manageproducts extends Component{
                 product['msg']=responsedata.msg;
                 this.setState({product});
                 document.getElementById('adduser').click();
-                this.setState({product:{}});
-                console.log(this.state.product)
-                this.props.history.push('/admin/products');
+                this.setState({product:{}});    
+                this.getProducts(); 
                }else{
                    console.log(responsedata);
                 product['isAdded']=0;
@@ -159,16 +162,49 @@ class Manageproducts extends Component{
         );
       
     }
+    deleteproduct(id){ 
+        const formdata=new FormData();
+        formdata.append('id',id);
+        const requestoptions={
+            method:'POST',
+            body:formdata
+        }
+       const delproduct=this.state.delete_product;
+        fetch(apiProductDelete,requestoptions)
+        .then( (response) => { return response.json() })
+        .then( (responsedata)=> {
+            if(responsedata.actionState===1){
+                delproduct['isDeleted']=1;
+                delproduct['msg']=responsedata.msg;
+                this.setState({delproduct});                
+                this.getProducts();
+            }else{
+                delproduct['isDeleted']=0;
+                delproduct['msg']=responsedata.msg;
+                this.setState({delproduct});
+                this.getProducts();
+                   }
+        })
 
+     
+
+}
     componentDidMount(){       
         this.getProducts();        
     }
     render(){            
         return(
             <div>
-            <button type="button" className="btn btn-primary" id="adduser" data-toggle="modal" data-target="#myModal">
-            Add User
-            </button>
+            <div className="page-header">
+            <h2>Manage Products</h2>
+            </div> 
+            <p className="text-right"><button type="button" className="btn btn-primary" id="adduser" data-toggle="modal" data-target="#myModal">
+            Add Product
+            </button></p>
+
+            { 
+            this.state.delete_product.isDeleted===1 ? <div className="alert-success">{this.state.delete_product.msg}</div>:''
+            }
                      <div className="modal" id="myModal">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
@@ -262,7 +298,7 @@ class Manageproducts extends Component{
                      </tr>
                     )
                     :
-                    <tr><td colSpan="3">No Product(s) found</td></tr>
+                    <tr><td colSpan="7" className="text-center">No Product(s) found</td></tr>
                     }
                     </tbody>
                </table>

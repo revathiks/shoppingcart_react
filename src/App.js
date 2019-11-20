@@ -12,6 +12,7 @@ import Orderconfirm from './components/cart/Orderconfirm';
 import Orderdetail from './components/cart/Orderdetail';
 import Users from './components/admin/Users';
 import Manageproducts from './components/admin/Manageproducts';
+import Cancel from './components/cart/Cancel';
 
 import Notfound from './components/Notfound';
 
@@ -36,6 +37,7 @@ class App extends Component {
           <Route  path="/myorders" component={Myorders} />
           <Route  path="/checkout" component={Checkout} />          
           <Route  path="/order/:id" component={Orderdetail} />
+          <Route  path="/cancel/:id" component={Cancel} />
           <Route  path="/orderconfirm" component={Orderconfirm} />
           
           <Route exact path="/admin/" component={Users} /> 

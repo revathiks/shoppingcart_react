@@ -9,6 +9,18 @@ const mapStateToProps = (state) => {
       cart:state.cart
     };
   };
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      clearCart: () => {
+        dispatch( {
+            type:'RESET',
+            payload:''
+        })  
+      }     
+    };
+  };
+
 class Checkout extends Component{
     constructor(props){    
         super(props);            
@@ -64,7 +76,8 @@ class Checkout extends Component{
                     order['alertclass']="alert alert-success";
                     order['isSubmitted']=1;
                     order['msg']=responsedata.msg;
-                    this.setState({order});                   
+                    this.setState({order});  
+                    this.props.clearCart()
                     this.props.history.push('/Orderconfirm');
                 }else{
                     order['isOrderConfirmed']=0;
@@ -116,7 +129,7 @@ class Checkout extends Component{
         return formValid; 
 
     }
-    render(){  
+    render(){         
         const finaltotal=Carttotal(this.props.cart);   
         const shippingcost=50;    
         return(
@@ -126,7 +139,7 @@ class Checkout extends Component{
         <CheckoutForm  onSubmit={()=>submitOrder()}/> */}
          <div className="checkout">
          { this.props.cart.length ?         
-            <div className="">   
+            <div className="">              
             <table id="cart" className="table table-hover table-condensed">
                 <thead>
                 <tr>
@@ -198,7 +211,9 @@ class Checkout extends Component{
             </div>
 
            
-            <button type="submit" className="btn btn-primary login_btn">Place Order</button>                   
+            <button type="submit" className="btn btn-primary login_btn">Place Order</button>      
+            <input type="hidden"  name="total" value={finaltotal}  />    
+            <input type="hidden"  name="shipping_cost" value={shippingcost}  />        
             </fieldset>
             </form>
             </div>
@@ -212,4 +227,4 @@ class Checkout extends Component{
         )
     }
 }
-export default connect(mapStateToProps)(Checkout)
+export default connect(mapStateToProps,mapDispatchToProps)(Checkout)

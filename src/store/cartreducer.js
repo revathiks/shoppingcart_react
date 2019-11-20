@@ -17,20 +17,23 @@ const removeAllFromCart=(cart,item)=>{
 }
 const cartreducer = (state=[], action) => {
     switch (action.type) {
-       case 'ADD': 
-       //return [...state,action.payload]
-       return addToCart(state,action.payload)
-       
-       case 'REMOVE':
-           //const firstMatchIndex=state.indexOf(action.payload)
-          // return state.filter((item,index)=>index !==firstMatchIndex)
-          return removeFromCart(state,action.payload)
-          case 'REMOVE_ALL':
-            //const firstMatchIndex=state.indexOf(action.payload)
-           // return state.filter((item,index)=>index !==firstMatchIndex) 
-           return removeAllFromCart(state,action.payload)
-        
-       default: return state
+        case 'ADD': 
+        //return [...state,action.payload]
+        return addToCart(state,action.payload)
+
+        case 'REMOVE':
+        //const firstMatchIndex=state.indexOf(action.payload)
+        // return state.filter((item,index)=>index !==firstMatchIndex)
+        return removeFromCart(state,action.payload)
+        case 'REMOVE_ALL':
+        //const firstMatchIndex=state.indexOf(action.payload)
+        // return state.filter((item,index)=>index !==firstMatchIndex) 
+        return removeAllFromCart(state,action.payload)
+
+        case 'RESET':
+        return state = [];
+
+        default: return state
     }
  } 
  export default cartreducer;

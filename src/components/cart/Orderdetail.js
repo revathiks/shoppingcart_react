@@ -9,8 +9,8 @@ class Orderdetail extends Component{
         order:[],
     }
     }
-    getMyOrder(){
-        const order_id=this.props.match.params.id  
+    getMyOrder(){        
+        const order_id= this.props.id ? this.props.id:this.props.match.params.id      
         const requestionOption={
             method:"GET"
         }
@@ -28,9 +28,25 @@ class Orderdetail extends Component{
     render(){            
         return(
             <div>
-                  {  this.state.order.map((orderinfo,i) =>
+                  {  this.state.order.map((orderinfo,ind) =>
                   
-                       <div><h5>Order No:#ExQ{orderinfo.orderid} <small>{orderinfo.createdon}</small></h5>
+                       <div key={ind}><h5>Order No:#ExQ{orderinfo.orderid} <small>{orderinfo.createdon}</small></h5>
+                       <p></p>
+                       
+                       <div>
+                       <div><h3>Shipping Information</h3></div>
+                        <div>{orderinfo.shipping_name}</div>
+                        <div>{orderinfo.shipping_email}</div>
+                        <div>{orderinfo.shipping_mobile}</div>
+                        <div>{orderinfo.shipping_address}</div>
+                      </div>
+                      <br/>
+                      <div>
+                       <div><h5>Product summary</h5></div>
+                        <div>{orderinfo.total}</div>
+                        
+                      </div>
+                        <p></p>
                        <table id="cart" className="table table-hover table-condensed">
                        <thead>
                        <tr>
@@ -48,7 +64,7 @@ class Orderdetail extends Component{
                     <tr key={i}>
                         <td data-th="Product">
                             <div className="row">
-                            <div className="col-sm-3 hidden-xs"><img width="100px" src={imgPath+`/${item.thumb}`} alt={item.name} class="img-responsive"/></div>
+                            <div className="col-sm-3 hidden-xs"><img width="100px" src={imgPath+`/${item.thumb}`} alt={item.name} className="img-responsive"/></div>
                             <div className="col-sm-6">
                             <h4 className="nomargin">{item.name}</h4>
                             <p>{item.description}</p>
@@ -63,7 +79,21 @@ class Orderdetail extends Component{
                     </tr>
                     )
                     }
-                </tbody>               
+                    
+                </tbody>  
+                <tfoot>
+                    <tr>
+                    <td colSpan="3" className="hidden-xs">shipping cost</td>
+                    <td>{orderinfo.shipping_cost}</td>
+                    </tr>
+						<tr>
+							
+							<td colSpan="3" className="hidden-xs">Total</td>
+                            
+							<td >{parseInt(orderinfo.total,10) + parseInt(orderinfo.shipping_cost,10)} </td>
+							
+						</tr>
+					</tfoot>             
             </table>
                        </div>
                  

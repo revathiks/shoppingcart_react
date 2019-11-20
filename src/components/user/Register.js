@@ -106,6 +106,9 @@ class Register extends Component{
         //console.log(this.state.user);
         return(
             <div className="login">  
+            <div className="page-header">
+            <h2>Create your account !</h2>
+            </div>
             { 
                 this.state.user.isSubmitted===1 ? <div className={this.state.user.alertclass}>{this.state.user.msg}</div>:''
             }   

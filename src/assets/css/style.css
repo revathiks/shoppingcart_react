@@ -90,8 +90,7 @@ footer .row{
     vertical-align: middle;
 }
 @media screen and (max-width: 600px) {
-    table#cart tbody td .form-control{
-		width:20%;
+    table#cart tbody td .form-control{		
 		display: inline !important;
 	}
 	.actions .btn{
@@ -132,7 +131,12 @@ fieldset {
     border: 1px solid #cccccc;
 }
 .orderitem a{
-    color:#058498;
+   /* color:#058498;*/
     font-weight:600;
 
+}
+.page-header {
+  padding-bottom: 9px;
+  margin: 20px 0 10px;
+  border-bottom: 1px solid #eee;
 }

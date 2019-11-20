@@ -41,7 +41,7 @@ class Mycart extends Component{
                     <tr key={i}>
                         <td data-th="Product">
                             <div className="row">
-                            <div className="col-sm-4 hidden-xs"><img width="100px" src={imgPath+`/${item.thumb}`} alt={item.name} class="img-responsive"/></div>
+                            <div className="col-sm-4 hidden-xs"><img width="100px" src={imgPath+`/${item.thumb}`} alt={item.name} className="img-responsive"/></div>
                             <div className="col-sm-8">
                             <h4 className="nomargin">{item.name}</h4>
                             <p>{item.description}</p>

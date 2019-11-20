@@ -33,12 +33,12 @@ class Header extends Component{
         <li className="nav-item">        
         <Link to="/products" className="nav-link" >Products</Link>
         </li>
+        <li key="1" className="nav-item">        
+        <Link to="/mycart" className="nav-link">My Cart</Link>
+        </li>
         { 
         sessionStorage.getItem("isUserLogged")==="1" ? 
-        [<li key="1" className="nav-item">        
-        <Link to="/mycart" className="nav-link">My Cart</Link>
-        </li>,
-
+        [
         <li  key="2" className="nav-item">        
         <Link to="/myorders" className="nav-link">My Orders</Link>
         </li>,
