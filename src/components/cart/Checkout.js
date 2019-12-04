@@ -134,7 +134,9 @@ class Checkout extends Component{
         const shippingcost=50;    
         return(
         <div>
-         
+           <div className="page-header">
+            <h2>Checkout</h2>
+            </div>
          {/*  
         <CheckoutForm  onSubmit={()=>submitOrder()}/> */}
          <div className="checkout">

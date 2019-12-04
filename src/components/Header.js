@@ -8,6 +8,16 @@ const mapStateToProps = (state) => {
       ftitle: state.titleReducer.ftitle
     };
   };
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      clearCart: () => {
+        dispatch( {
+            type:'RESET',
+            payload:''
+        })  
+      }     
+    };
+  };
 class Header extends Component{
     constructor(props){
         super(props);
@@ -16,6 +26,7 @@ class Header extends Component{
     }      
     logout(){     
       sessionStorage.setItem('isUserLogged',0);
+      this.props.clearCart()
       this.props.history.push('/');
   }
    
@@ -30,9 +41,7 @@ class Header extends Component{
         <li className="nav-item">        
         <Link to="/" className="nav-link" >Home</Link>
         </li>
-        <li className="nav-item">        
-        <Link to="/products" className="nav-link" >Products</Link>
-        </li>
+        
         <li key="1" className="nav-item">        
         <Link to="/mycart" className="nav-link">My Cart</Link>
         </li>
@@ -41,6 +50,9 @@ class Header extends Component{
         [
         <li  key="2" className="nav-item">        
         <Link to="/myorders" className="nav-link">My Orders</Link>
+        </li>,
+        <li  key="5" className="nav-item">        
+        <Link to="/checkout2" className="nav-link">Stripe checkout</Link>
         </li>,
          <li  key="3" className="nav-item">        
          <Link to="/admin/products" className="nav-link">ADMIN</Link>
@@ -69,4 +81,4 @@ class Header extends Component{
         );
     }
 }
-export default withRouter(connect(mapStateToProps, null)(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

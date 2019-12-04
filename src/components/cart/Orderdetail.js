@@ -28,6 +28,9 @@ class Orderdetail extends Component{
     render(){            
         return(
             <div>
+                <div className="page-header">
+                <h2>Order Detail</h2>
+                </div>
                   {  this.state.order.map((orderinfo,ind) =>
                   
                        <div key={ind}><h5>Order No:#ExQ{orderinfo.orderid} <small>{orderinfo.createdon}</small></h5>
@@ -42,8 +45,7 @@ class Orderdetail extends Component{
                       </div>
                       <br/>
                       <div>
-                       <div><h5>Product summary</h5></div>
-                        <div>{orderinfo.total}</div>
+                       <div><h5>Product summary</h5></div>                      
                         
                       </div>
                         <p></p>

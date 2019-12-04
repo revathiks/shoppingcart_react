@@ -26,10 +26,12 @@ class Myorders extends Component{
         this.getMyOrders();
     }
     render(){
-        const path="/order";
-        console.log(this.state.orders);
+        const path="/order";        
         return(
         <div>
+            <div className="page-header">
+            <h2>My Orders</h2>
+            </div>
             { this.state.orders ?
             <div>
             {
@@ -51,7 +53,7 @@ class Myorders extends Component{
                             <div>
                                 {
                                   (order.status!=="Delivered" &&  order.status!=="Shipped"  &&  order.status!=="Cancelled") ?
-                                  <Link to="/cancel" className="btn btn-danger">Cancel Order</Link>
+                                  <Link to={`cancel/${order.id}`} className="btn btn-danger">Cancel Order</Link>
                                 :
                                 <div className="btn btn-success">{order.status}</div>
                                 }

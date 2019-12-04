@@ -40,6 +40,9 @@ class Manageproducts extends Component{
     updateProduct(e){
         e.preventDefault();         
             const formdata=new FormData(event.target);
+            this.state.selectedfile ?
+            formdata.append('image',this.state.selectedfile,this.state.selectedfile.name)
+            :''
             const requestoptions={
                 method:'POST',
                 body:formdata
@@ -52,7 +55,7 @@ class Manageproducts extends Component{
                     eproduct['isUpdated']=1;
                     this.setState({eproduct});
                     document.getElementById('editproduct').click();
-                    this.props.history.push('/admin/products');
+                    this.getProducts();
                 }else{
                     eproduct['isUpdated']=0;
                     this.setState({eproduct});
@@ -133,10 +136,10 @@ class Manageproducts extends Component{
                 product['msg']=responsedata.msg;
                 this.setState({product});
                 document.getElementById('adduser').click();
-                this.setState({product:{}});    
+                this.setState({product:{}});
+                document.getElementById("addProductform").reset();    
                 this.getProducts(); 
-               }else{
-                   console.log(responsedata);
+               }else{            
                 product['isAdded']=0;
                 product['alertclass']="alert alert-danger";
                 product['isSubmitted']=1;
@@ -192,7 +195,7 @@ class Manageproducts extends Component{
     componentDidMount(){       
         this.getProducts();        
     }
-    render(){            
+    render(){   
         return(
             <div>
             <div className="page-header">
@@ -220,7 +223,7 @@ class Manageproducts extends Component{
                             { 
                             this.state.product.isSubmitted===1 ? <div className={this.state.product.alertclass}>{this.state.product.msg}</div>:''
                             }
-                            <form onSubmit={this.processProduct} encType="multipart/form-data">
+                            <form id="addProductform" onSubmit={this.processProduct} encType="multipart/form-data">
 
                             <div className="form-group">
                             <label htmlFor="name">Product Name</label>

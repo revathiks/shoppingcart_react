@@ -1,6 +1,7 @@
 import React ,{Component} from 'react';
 import ProductItem from './ProductItem';
 import {connect} from 'react-redux';
+import {additem,removeitem} from '../../store/action.js';
 var apiProductList="http://172.16.5.51/react_services/api/products.php";
 const emptyproductimg = require('../../assets/images/noproduct.png');
 const mapStateToProps = (state) => {
@@ -8,19 +9,14 @@ const mapStateToProps = (state) => {
       cart: state.cart
     };
   };
+ 
   const mapDispatchToProps = (dispatch) => {
     return {
       addtoCart: (item) => {
-        dispatch( {
-            type:'ADD',
-            payload:item
-        })  
+        dispatch(additem(item))  
       },
       removeFromCart: (item) => {
-        dispatch( {
-            type:'REMOVE',
-            payload:item
-        })  
+        dispatch(removeitem(item)) 
       },
     };
   };

@@ -69,6 +69,7 @@ class Register extends Component{
         let fields=this.state.user;
         let errors={};
         let formValid=true;
+        
         if(!fields['fname']){
             formValid=false;
             errors['fname']="Please enter first name";
@@ -89,6 +90,10 @@ class Register extends Component{
             formValid=false;
             errors['mobile']="Please enter mobile";
         }
+        if (!Number(fields['mobile'])) {
+            formValid=false;
+            errors['mobile']="Please enter valid mobile number";
+         }
         if(!fields['password']){
             formValid=false;
             errors['password']="Please enter password";
@@ -113,48 +118,63 @@ class Register extends Component{
                 this.state.user.isSubmitted===1 ? <div className={this.state.user.alertclass}>{this.state.user.msg}</div>:''
             }   
             {
-                this.state.user.isRegistered===0 ?          
+                this.state.user.isRegistered===0 ?  
+                       
                 <form onSubmit={this.processRegister} ref="regform">
+                    
+                    <div class="col-sm-12"> 
+                    <div className="row">
+                    <div class="col-sm-6"> 
                     <div className="form-group">
                         <label htmlFor="name">First Name</label>
-                        <input type="text" className="form-control" id="fname" name="fname" placeholder="Enter your first name" onChange={this.changeData}/>
+                        <input type="text" className="form-control" id="fname" name="fname" placeholder="Enter your first name" onChange={this.changeData} maxLength="50"/>
                         <span className="invalid">{this.state.errors["fname"]}</span>
                     </div>
                     <div className="form-group">
                         <label htmlFor="name">Last Name</label>
-                        <input type="text" className="form-control" id="lname" name="lname" placeholder="Enter your last name" onChange={this.changeData}/>
+                        <input type="text" className="form-control" id="lname" name="lname" placeholder="Enter your last name" onChange={this.changeData} maxLength="50"/>
                         <span className="invalid">{this.state.errors["lname"]}</span>
                     </div>  
                     
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" id="username" name="username" placeholder="Enter your username" onChange={this.changeData}/>
+                        <input type="text" className="form-control" id="username" name="username" placeholder="Enter your username" onChange={this.changeData} maxLength="50"/>
                         <span className="invalid">{this.state.errors["username"]}</span>
                     </div> 
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
-                        <input type="text" className="form-control" id="email" name="email" placeholder="Enter your Email" onChange={this.changeData}/>
+                        <input type="email" className="form-control" id="email" name="email" placeholder="Enter your Email" onChange={this.changeData} maxLength="100"/>
                         <span className="invalid">{this.state.errors["email"]}</span>
                     </div>
-
+                    </div>
+                    <div class="col-sm-6"> 
                     <div className="form-group">
                         <label htmlFor="mobile">Mobile</label>
-                        <input type="text" className="form-control" id="mobile" name="mobile" placeholder="Enter your mobile" onChange={this.changeData}/>
+                        <input type="text" className="form-control" id="mobile" name="mobile" placeholder="Enter your mobile" onChange={this.changeData} maxLength="10"/>
                         <span className="invalid">{this.state.errors["mobile"]}</span>
                     </div> 
                     <div className="form-group">
                         <label htmlFor="city">City</label>
-                        <input type="text" className="form-control" id="city" name="city" placeholder="Enter your city" onChange={this.changeData}/>
+                        <input type="text" className="form-control" id="city" name="city" placeholder="Enter your city" onChange={this.changeData} maxLength="50"/>
                         <span className="invalid">{this.state.errors["city"]}</span>
                     </div> 
 
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" id="password" name="password" placeholder="Enter your password" onChange={this.changeData}/>
+                        <input type="password" className="form-control" id="password" name="password" placeholder="Enter your password" onChange={this.changeData} maxLength="50"/>
                         <span className="invalid">{this.state.errors["password"]}</span>
                     </div>
-                    <button type="submit" className="btn btn-primary login_btn">Create Account</button>                    
+
+                    <div class="col-sm-12"> 
+                    <div class="row col-sm-6">
+                    <button type="submit" className="btn btn-primary login_btn">Create Account</button>  
+                    </div>
+                    </div> 
+                    </div>  
+                    </div>  
+                    </div>             
             </form>
+           
             : ''
             }
             
